@@ -1,0 +1,20 @@
+name = browncoat
+description = Built using browncoat. The awkward platypus framework.
+core = 7.x
+regions[header]          = 'Header'
+regions[navigation]      = 'Navigation'
+regions[highlighted]     = 'Highlighted'
+regions[help]            = 'Help'
+regions[content]         = 'Content'
+regions[sidebar_first]   = 'Primary'
+regions[sidebar_second]  = 'Secondary'
+regions[footer]          = 'Footer'
+
+
+;css
+stylesheets[all][] = assets/css/styles.css
+
+
+;js
+scripts[] = assets/js/libs/handlebars.js
+scripts[] = assets/js/script.js
