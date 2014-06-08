@@ -8,10 +8,10 @@ sites/*/private
 # Ignore Cache
 .sass-cache
 
-themes/*
-includes/*
-misc/*
-modules/*
-scripts/*
-themes/*
-profiles/*
+/themes
+/includes
+/misc
+/modules
+/scripts
+/themes
+/profiles
