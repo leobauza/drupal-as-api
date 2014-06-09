@@ -8,6 +8,9 @@ test = (function ($, global) {
   if (bs.node.custom_fields) {
     console.log('has custom');
     $.each(bs.node.custom_fields, function (k, v) {
+      /**
+       * DON'T USE UND FIGURE OUT HOW TO NOT USE UND LIKE THE DRUPAL BACK END WAY
+       */
       custom_fields[k] = v.und[0].value
     });
 
