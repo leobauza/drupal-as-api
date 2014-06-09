@@ -47,6 +47,14 @@ function apiRouter ($type, $id, $page=0) {
       break;
 
     /*
+    @request a page
+    */
+    case 'page':
+      getPage($id);
+      break;
+
+
+    /*
     @request a node
     */
     case 'node':
@@ -62,3 +70,37 @@ function apiRouter ($type, $id, $page=0) {
   }
 
 }
+
+
+
+/**
+ * Returns?
+ *
+ * @Resource URL
+ * /api/page/ [sample: /api/page/1]
+ *
+ * @param $id
+ * ID for the page
+ */
+function getPage($id) {
+  // $type = node_type_load('page');
+  // print json_encode($type);
+  $g = $_GET;
+
+  //print_r($g);
+
+  $node = getNode($id, TRUE);
+  $menu = getMenu('main-menu', TRUE);
+
+  $output = array(
+    'querie' => $g['q'],
+    'node' => $node,
+    'menu' => $menu
+  );
+
+  echo json_encode($output);
+
+}
+
+
+

@@ -7,8 +7,10 @@
  *
  * @param $id
  * The node id
+ * @param $internal
+ * internal calls are calls from within myapi aka not a http request
  */
-function getNode($id) {
+function getNode($id, $internal=FALSE) {
 
   $fields = node_load($id);
 
@@ -23,8 +25,12 @@ function getNode($id) {
     unset($fields->custom_fields);
   }
 
+  if ($internal === TRUE) {
+    return $fields;
+  } else {
+    echo json_encode($fields);
+  }
 
-  echo json_encode($fields);
 
 }
 

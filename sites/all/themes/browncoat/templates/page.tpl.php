@@ -10,7 +10,7 @@ if ($messages):
   print $messages;
 endif;
 
-
+//dpm($page);
 /**
  * Node Info
  */
@@ -65,6 +65,17 @@ if (!$variables['logged_in']) {
 
 <script>
   //bootstrap the data so no initial call is required
+
+  /**
+   * create a url with a number of parameters formed
+   * info about the page. this way there is one file_get_contents
+   * for all the data needed to form the page:
+   * {$base_url}/api/page/{$node_info['nid']}?menu=main-menu&blocks=1,2,3
+   *
+   * Also: set defaults on a per content type basis...
+   * ^ should that happen on tempaltes here on on the myapi side?
+   */
+
 	var bootstrap = {
 		siteNav: <?php echo file_get_contents("{$base_url}/api/menu/main-menu",false,$context) ;?>,
     node: <?php echo file_get_contents("{$base_url}/api/node/{$node_info['nid']}",false,$context) ;?>

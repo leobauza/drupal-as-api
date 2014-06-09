@@ -5,6 +5,23 @@ if (!defined('__DIR__')) {
 	define('__DIR__', dirname(__FILE__));
 }
 
+/**
+ * implement template_preprocess_page()
+ */
+function browncoat_preprocess_page(&$vars) {
+
+	//dpm($vars);
+
+	$node = $vars['node'];
+
+	$vars['node_info'] = array(
+		'nid' => $node->nid,
+		'vid' => $node->vid,
+		'title' => $node->title,
+		'type' => $node->type
+	);
+
+}
 
 /**
  * Remove Drupal Css
@@ -63,20 +80,3 @@ function browncoat_js_alter(&$js) {
 	}
 }
 
-/**
- * implement template_preprocess_page()
- */
-function browncoat_preprocess_page(&$vars) {
-
-	dpm($vars);
-
-	$node = $vars['node'];
-
-	$vars['node_info'] = array(
-		'nid' => $node->nid,
-		'vid' => $node->vid,
-		'title' => $node->title,
-		'type' => $node->type
-	);
-
-}
