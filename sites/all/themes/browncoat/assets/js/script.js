@@ -8,10 +8,7 @@ test = (function ($, global) {
   if (bs.node.custom_fields) {
     console.log('has custom');
     $.each(bs.node.custom_fields, function (k, v) {
-      /**
-       * DON'T USE UND FIGURE OUT HOW TO NOT USE UND LIKE THE DRUPAL BACK END WAY
-       */
-      custom_fields[k] = v.und[0].value
+      custom_fields[k] = v.safe_value
     });
 
   } else {
@@ -46,7 +43,7 @@ test = (function ($, global) {
   });
 
   var pageBody = comp('#body', {
-    body: bs.node.body.und[0].safe_value,
+    body: bs.node.body.safe_value,
     custom_fields: custom_fields
   });
 
@@ -82,7 +79,7 @@ test = (function ($, global) {
 //       success: function (result) {
 //
 //         var pageBody = comp('#body', {
-//           body: result.body.und[0].safe_value,
+//           body: result.body.safe_value,
 //           custom_fields: result.custom_fields
 //         });
 //
