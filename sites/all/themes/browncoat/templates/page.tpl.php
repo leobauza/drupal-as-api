@@ -76,10 +76,11 @@ if (!$variables['logged_in']) {
    * ^ should that happen on tempaltes here on on the myapi side?
    */
 
-	var bootstrap = {
-		siteNav: <?php echo file_get_contents("{$base_url}/api/menu/main-menu",false,$context) ;?>,
-    node: <?php echo file_get_contents("{$base_url}/api/node/{$node_info['nid']}",false,$context) ;?>
-	}
+	var bootstrap = <?php echo file_get_contents("{$base_url}/api/page/{$node_info['nid']}",false,$context) ;?>
+
+	// siteNav: <?php echo file_get_contents("{$base_url}/api/menu/main-menu",false,$context) ;?>,
+  // node: <?php echo file_get_contents("{$base_url}/api/node/{$node_info['nid']}",false,$context) ;?>
+
 </script>
 
 
