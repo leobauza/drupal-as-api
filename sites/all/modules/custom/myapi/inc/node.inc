@@ -14,11 +14,6 @@ function getNode($id, $internal=FALSE) {
 
   $fields = node_load($id);
 
-  /**
-   * !! NEED TO CHANGE CODE SO THAT I AM NOT USING 'UND'
-   * !! AS IN body['und']['value']
-   */
-
   $fields->custom_fields = array();
   foreach ($fields as $field => $value) {
     if (strpos($field, 'field_') !== FALSE && !empty($value)) {

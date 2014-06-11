@@ -53,57 +53,57 @@ test = (function ($, global) {
 
 })(jQuery, this);
 
-test2 = (function ($, global) {
+// test2 = (function ($, global) {
+//
+//   function comp(id, context) {
+//     var source = $(id).html();
+//     var template = Handlebars.compile(source);
+//     var html = template(context);
+//
+//     return html;
+//   }
+//
+//   $('.site__menu').on('click', 'a', function (e) {
+//     e.preventDefault();
+//
+//     var $this = $(this),
+//         data = $this.data(),
+//         nid = data.nid;
+//
+//     console.log(nid);
+//
+//     $.ajax({
+//       type: "GET",
+//       url: "/api/node/" + nid,
+//       success: function (result) {
+//
+//         //custom fields
+//         if (result.custom_fields) {
+//           console.log('has custom');
+//           $.each(result.custom_fields, function (k, v) {
+//             result.custom_fields[k] = v.safe_value;
+//           });
+//
+//         } else {
+//           console.log('no custom fields');
+//           var custom_fields = null;
+//         }
+//
+//         var pageBody = comp('#body', {
+//           body: result.body.safe_value,
+//           custom_fields: result.custom_fields
+//         });
+//
+//         $('.main__body').addClass('to-remove').after(pageBody);
+//         $('.to-remove').remove();
+//
+//
+//         console.log(result);
+//       }
+//     });
+//
+//
+//   });
+//
+// })(jQuery, this);
 
-
-  function comp(id, context) {
-    var source = $(id).html();
-    var template = Handlebars.compile(source);
-    var html = template(context);
-
-    return html;
-  }
-
-  $('.site__menu').on('click', 'a', function (e) {
-    e.preventDefault();
-
-    var $this = $(this),
-        data = $this.data(),
-        nid = data.nid;
-
-    console.log(nid);
-
-    $.ajax({
-      type: "GET",
-      url: "/api/node/" + nid,
-      success: function (result) {
-
-        //custom fields
-        if (result.custom_fields) {
-          console.log('has custom');
-          $.each(result.custom_fields, function (k, v) {
-            result.custom_fields[k] = v.safe_value;
-          });
-
-        } else {
-          console.log('no custom fields');
-          var custom_fields = null;
-        }
-
-        var pageBody = comp('#body', {
-          body: result.body.safe_value,
-          custom_fields: result.custom_fields
-        });
-
-        $('.main__body').addClass('to-remove').after(pageBody);
-        $('.to-remove').remove();
-
-
-        console.log(result);
-      }
-    });
-
-
-  });
-
-})(jQuery, this);
