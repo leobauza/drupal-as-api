@@ -122,4 +122,100 @@ function getPage($id) {
 
 
 
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
+  //dpm($form_state);
+  $views = views_get_all_views();
+  $view_names = array(
+    0 => t('none')
+  );
+  foreach ($views as $view) {
+    $view_names[$view->name] = t($view->name);
+  }
+
+  $node = $form['#node'];
+  dpm($node);
+  $nid = $node->nid;
+
+  !isset($myapi_node_data)? $myapi_node_data = array() : $myapi_node_data = $myapi_node_data;
+  $myapi_node_data = variable_get('myapi_node_data', '');
+
+  //dpm($myapi_node_data);
+
+  $form['data_settings'] = array(
+    '#type' => 'vertical_tabs',
+    '#weight' => 99
+  );
+
+  $form['some_data'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Some Data'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    // '#group' => 'additional_settings',
+    '#group' => 'data_settings',
+    '#weight' => 100,
+  );
+
+  $form['view_data'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('View Data'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    // '#group' => 'additional_settings',
+    '#group' => 'data_settings',
+    '#weight' => 100,
+  );
+
+  $form['view_data']['views'] = array(
+    '#type' => 'select',
+    '#title' => t('views'),
+    '#options' => $view_names,
+    '#default_value' => $myapi_node_data['node_views'][$nid],
+    '#description' => t('the views that this node will use')
+  );
+
+  if (isset($form_state['input']['views']) ) {
+
+    /**
+     * REQUIRES ANOTHER MODULE = (Entity Module)
+     */
+    // $obj = entity_metadata_wrapper('node', $node);
+    // $obj->views->set($form_state['input']['views']);
+    // $obj->save();
+    // $node->views = $form_state['input']['views'];
+    // entity_save('node', $node);
+
+
+    /**
+     * WOULD BE BETTER TO SAVE TO THE NODE OBJECT THAN TO DO THIS...
+     * NEED TO SET UP INSTALL AND SCHEMA FOR THIS...
+     */
+    !isset($myapi_node_data)? $myapi_node_data = array() : $myapi_node_data = $myapi_node_data;
+    $myapi_node_data['node_views'] = array(
+      $nid => $form_state['input']['views']
+    );
+    variable_set('myapi_node_data', $myapi_node_data);
+
+
+    // $node_views = $form_state['input']['views'];
+    // $node->node_views = $node_views;
+    // node_save($node);
+    // dpm($node);
+    // if ($node->node_views !== $node_views) {
+    //   $node->node_views = $node_views;
+    // }
+  }
+
+}
+
+// function myapi_node_submit($node, $form, &$form_state) {
+//   $node_views = $form_state['input']['views'];
+//   $node->node_views = $node_views;
+//   entity_save('node', $node);
+// }
+
+
 

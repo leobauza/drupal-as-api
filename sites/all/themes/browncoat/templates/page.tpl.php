@@ -16,6 +16,18 @@ endif;
  */
 //dpm($node_info);
 
+
+/**
+ * Get Related Views
+ * I am doing this with set variable right now...this isn't a good idea
+ * need to create schema to save directly to the node like $node->views
+ * which would be accessed like.... $node_info['views']
+ */
+//$mnd = $myapi_node_data
+$mnd = variable_get('myapi_node_data', '');
+$node_views = isset($mnd['node_views'][$node_info['nid']])? $mnd['node_views'][$node_info['nid']] : '';
+dpm($node_views);
+
 /**
  * Login Form
  */
@@ -76,7 +88,7 @@ if (!$variables['logged_in']) {
    * ^ should that happen on tempaltes here on on the myapi side?
    */
 
-	var bootstrap = <?php echo file_get_contents("{$base_url}/api/page/{$node_info['nid']}",false,$context) ;?>
+	var bootstrap = <?php echo file_get_contents("{$base_url}/api/page/{$node_info['nid']}?view={$node_views}",false,$context) ;?>
 
 	// siteNav: <?php echo file_get_contents("{$base_url}/api/menu/main-menu",false,$context) ;?>,
   // node: <?php echo file_get_contents("{$base_url}/api/node/{$node_info['nid']}",false,$context) ;?>
