@@ -7,10 +7,8 @@
  *
  * @param $id
  * The node id
- * @param $internal
- * internal calls are calls from within myapi aka not a http request
- */
-function getNode($id, $internal=FALSE) {
+  */
+function getNode($id) {
 
   $fields = node_load($id);
 
@@ -35,13 +33,7 @@ function getNode($id, $internal=FALSE) {
   //get rid of some properties you dont need
   unset($fields->rdf_mapping);
 
-
-  if ($internal === TRUE) {
-    return $fields;
-  } else {
-    echo json_encode($fields);
-  }
-
+  return $fields;
 
 }
 

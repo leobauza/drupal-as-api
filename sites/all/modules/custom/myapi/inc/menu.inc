@@ -7,10 +7,8 @@
  *
  * @param $name
  * The name of the menu
- * @param $internal
- * internal calls are calls from within myapi aka not a http request
- */
-function getMenu($name, $internal=FALSE) {
+  */
+function getMenu($name) {
   $menu = menu_load_links($name);
 
   $menu_tree = menu_tree_all_data($name);
@@ -110,11 +108,7 @@ function getMenu($name, $internal=FALSE) {
     'links' => $links
   );
 
-  if ($internal === TRUE) {
-    return $output;
-  } else {
-    echo json_encode($output);
-  }
+  return $output;
   //echo json_encode($menu_tree);
 
 }

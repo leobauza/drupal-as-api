@@ -37,7 +37,8 @@ function apiRouter ($type, $id, $page=0) {
     @request a menu
     */
     case 'menu':
-      getMenu($id);
+      $menu = getMenu($id);
+      echo json_encode($menu);
       break;
 
     /*
@@ -50,22 +51,24 @@ function apiRouter ($type, $id, $page=0) {
     @request a page
     */
     case 'page':
-      getPage($id);
+      $page = getPage($id);
+      echo json_encode($page);
       break;
-
 
     /*
     @request a node
     */
     case 'node':
-      getNode($id);
+      $node = getNode($id);
+      echo json_encode($node);
       break;
 
     /*
     @request a view
     */
     case 'view':
-      getView($id);
+      $view = getView($id);
+      echo json_encode($view);
       break;
 
 
@@ -98,8 +101,8 @@ function getPage($id) {
   // }
   //print_r($g);
 
-  $node = getNode($id, TRUE);
-  $menu = getMenu('main-menu', TRUE);
+  $node = getNode($id);
+  $menu = getMenu('main-menu');
 
   $output = array(
     'querie' => $g['q'],
@@ -109,27 +112,27 @@ function getPage($id) {
 
   if ($_GET['view']) {
     $view_name = $_GET['view'];
-    $output['view'] = getView($view_name, 0, TRUE);
+    $output['view'] = getView($view_name);
   }
 
-
-
-  echo json_encode($output);
+  return $output;
 
 }
-
 
 
 /**
  * Returns?
  *
  * @Resource URL
- * /api/page/ [sample: /api/page/1]
+ * /api/view/ [sample: /api/view/articles]
  *
- * @param $id
- * ID for the page
+ * @param $name
+ * name of the view
+ * @param $page
+ * page number for the view if paginated
  */
-function getView($name, $page=0, $internal=FALSE) {
+function getView($name, $page=0) {
+
   $view = views_get_view($name);
 
   $view->init_display();
@@ -144,15 +147,7 @@ function getView($name, $page=0, $internal=FALSE) {
     $rows[$row->nid] = $row;
   }
 
-  if ($internal === TRUE) {
-    return $rows;
-  } else {
-    echo json_encode($rows);
-  }
-
-
-
-
+  return $rows;
 
 }
 
