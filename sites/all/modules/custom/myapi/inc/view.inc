@@ -12,20 +12,64 @@
  */
 function getView($name, $page=0) {
 
-  $view = views_get_view($name);
 
-  $view->init_display();
-  $view->current_page = $page;
-
-  $view->pre_execute();
-  $view->execute();
-  $view_result = $view->result;
+  $names = explode(' ', $name);
 
   $rows = array();
-  foreach ($view_result as $row) {
-    $rows[$row->nid] = $row;
+  foreach($names as $name) {
+    $view = views_get_view($name);
+    $view->init_display();
+    $view->current_page = $page;
+
+    $view->pre_execute();
+    $view->execute();
+    $view_result = $view->result;
+
+    $rows = array();
+    foreach ($view_result as $row) {
+      $rows[$row->nid] = $row;
+    }
+
+    $views[$name] = $rows;
   }
 
-  return $rows;
+  return $views;
+
+
+  // foreach($names as $name) {
+  //
+  //   $view = views_get_view($name);
+  //
+  //   $view->init_display();
+  //   $view->current_page = $page;
+  //
+  //   $view->pre_execute();
+  //   $view->execute();
+  //   $view_result = $view->result;
+  //
+  //   $rows = array();
+  //   foreach ($view_result as $row) {
+  //     $rows[$row->nid] = $row;
+  //   }
+  //
+  // }
+
+
+
+  // $view = views_get_view($name);
+  //
+  // $view->init_display();
+  // $view->current_page = $page;
+  //
+  // $view->pre_execute();
+  // $view->execute();
+  // $view_result = $view->result;
+  //
+  // $rows = array();
+  // foreach ($view_result as $row) {
+  //   $rows[$row->nid] = $row;
+  // }
+  //
+  // return $rows;
 
 }

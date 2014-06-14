@@ -12,7 +12,6 @@ function browncoat_preprocess_page(&$vars) {
 
 	//dpm($vars);
 	$node = $vars['node'];
-
 	$vars['node_info'] = array(
 		'nid' => $node->nid,
 		'vid' => $node->vid,

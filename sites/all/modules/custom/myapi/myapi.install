@@ -29,6 +29,8 @@ function myapi_enable() {
     $myapi_test_field = array(
       'field_name' => 'myapi_test',
       'type' => 'list_text',
+      //allow for multiple values
+      //http://drupal.stackexchange.com/questions/35830/how-to-create-multi-value-multi-bundle-entity-reference-fields-in-code
       'cardinality' => '-1'
     );
     field_create_field($myapi_test_field);

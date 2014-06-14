@@ -75,6 +75,15 @@ function apiRouter ($type, $id, $page=0) {
 
 
     /*
+    @request a test
+    */
+    case 'test':
+      $view = getTest($id);
+      //echo json_encode($view);
+      break;
+
+
+    /*
     DEFAULT
     */
     default:
@@ -112,14 +121,32 @@ function getPage($id) {
     'menu' => $menu
   );
 
-  if ($_GET['view']) {
-    $view_name = $_GET['view'];
-    $output['view'] = getView($view_name);
+  if ($_GET['views']) {
+    $view_name = $_GET['views'];
+    $output['views'] = getView($view_name);
   }
 
   return $output;
-
 }
+
+
+
+function getTest($id) {
+
+  if ($_GET['views']) {
+    $view_name = $_GET['views'];
+    $output = getView($view_name);
+  }
+
+  echo json_encode($output);
+  //return $output;
+}
+
+
+
+
+
+
 
 /**
  * Implements hook_form_FORM_ID_alter().
@@ -163,15 +190,17 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
 
   if (isset($form['myapi_test'])) {
 
-    $myapi_lang = $form['myapi_test']['#language'];
-    $myapi_default = 0;
+    $myapi_default = array();
     if (isset($node->myapi_test)) {
-      $myapi_test_field = field_view_field('node', $node, 'myapi_test');
-      if (isset($myapi_test_field['#items'][0]['value'])) {
-        $myapi_default = $myapi_test_field['#items'][0]['value'];
+      $assoc_views_field = field_view_field('node', $node, 'myapi_test');
+      if (isset($assoc_views_field['#items'])) {
+        foreach($assoc_views_field['#items'] as $key) {
+          $myapi_default[] = $key['value'];
+        }
       }
     }
 
+    $myapi_lang = $form['myapi_test']['#language'];
     $form['myapi_test'][$myapi_lang]['#type'] = 'select';
     $form['myapi_test'][$myapi_lang]['#multiple'] = TRUE;
     $form['myapi_test'][$myapi_lang]['#options'] = $view_names;

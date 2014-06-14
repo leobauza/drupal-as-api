@@ -16,6 +16,26 @@ endif;
  */
 //dpm($node_info);
 
+/**
+ * Associations (views)
+ */
+if (isset($node->myapi_test)) {
+  $assoc_views_field = field_view_field('node', $node, 'myapi_test');
+  $assoc_views = array();
+  if (isset($assoc_views_field['#items'])) {
+    foreach($assoc_views_field['#items'] as $key) {
+      $assoc_views[] = $key['value'];
+    }
+  }
+
+  $assoc_views = "?views=" . implode('+', $assoc_views);
+
+  // if (isset($assoc_views_field['#items'][0]['value'])) {
+  //   $myapi_default = $assoc_views_field['#items'][0]['value'];
+  // }
+}
+//dpm($node->myapi_test);
+
 
 /**
  * Get Related Views
@@ -88,7 +108,7 @@ if (!$variables['logged_in']) {
    * ^ should that happen on tempaltes here on on the myapi side?
    */
 
-	var bootstrap = <?php echo file_get_contents("{$base_url}/api/page/{$node_info['nid']}",false,$context) ;?>
+	var bootstrap = <?php echo file_get_contents("{$base_url}/api/page/{$node_info['nid']}{$assoc_views}",false,$context) ;?>
 
 	// siteNav: <?php echo file_get_contents("{$base_url}/api/menu/main-menu",false,$context) ;?>,
   // node: <?php echo file_get_contents("{$base_url}/api/node/{$node_info['nid']}",false,$context) ;?>
