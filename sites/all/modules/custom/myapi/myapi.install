@@ -1,4 +1,8 @@
 <?php
+//make a content type!!!
+//http://yanniboi.wordpress.com/2012/11/15/drupal-field-api-example-references/
+
+
 
 /**
  * Implement hook_field_info()

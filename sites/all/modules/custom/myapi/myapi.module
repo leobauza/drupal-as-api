@@ -3,8 +3,9 @@
 require_once drupal_get_path('module', 'myapi') . '/inc/menu.inc';
 require_once drupal_get_path('module', 'myapi') . '/inc/node.inc';
 require_once drupal_get_path('module', 'myapi') . '/inc/view.inc';
+require_once drupal_get_path('module', 'myapi') . '/inc/page.inc';
 
-
+require_once drupal_get_path('module', 'myapi') . '/fields/assoc-views.inc';
 /**
  * Implementation of hook_menu
  */
@@ -94,40 +95,6 @@ function apiRouter ($type, $id, $page=0) {
 
 
 
-/**
- * Returns?
- *
- * @Resource URL
- * /api/page/ [sample: /api/page/1]
- *
- * @param $id
- * ID for the page
- */
-function getPage($id) {
-  // $type = node_type_load('page');
-  // print json_encode($type);
-  $g = $_GET;
-  // foreach ($g as $k => $v) {
-  //   print("{$k} is {$v} -- AND -- ");
-  // }
-  //print_r($g);
-
-  $node = getNode($id);
-  $menu = getMenu('main-menu');
-
-  $output = array(
-    'querie' => $g['q'],
-    'node' => $node,
-    'menu' => $menu
-  );
-
-  if ($_GET['views']) {
-    $view_name = $_GET['views'];
-    $output['views'] = getView($view_name);
-  }
-
-  return $output;
-}
 
 
 
@@ -141,123 +108,6 @@ function getTest($id) {
   echo json_encode($output);
   //return $output;
 }
-
-
-
-
-
-
-
-/**
- * Implements hook_form_FORM_ID_alter().
- */
-function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
-  //dpm($form_state['node']);
-  //dpm($form['myapi_test']);
-  $views = views_get_all_views();
-  $view_names = array(
-    0 => t('none')
-  );
-  foreach ($views as $view) {
-    $view_names[$view->name] = t($view->name);
-  }
-
-  $node = $form['#node'];
-  //dpm($node);
-  $nid = $node->nid;
-
-  // !isset($myapi_node_data)? $myapi_node_data = array() : $myapi_node_data = $myapi_node_data;
-  // $myapi_node_data = variable_get('myapi_node_data', '');
-
-  //dpm($myapi_node_data);
-
-  $form['data_settings'] = array(
-    '#type' => 'vertical_tabs',
-    '#weight' => 99
-  );
-
-  $form['view_data'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('View Data'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    // '#group' => 'additional_settings',
-    '#group' => 'data_settings',
-    '#weight' => 100,
-  );
-
-
-
-  if (isset($form['myapi_test'])) {
-
-    $myapi_default = array();
-    if (isset($node->myapi_test)) {
-      $assoc_views_field = field_view_field('node', $node, 'myapi_test');
-      if (isset($assoc_views_field['#items'])) {
-        foreach($assoc_views_field['#items'] as $key) {
-          $myapi_default[] = $key['value'];
-        }
-      }
-    }
-
-    $myapi_lang = $form['myapi_test']['#language'];
-    $form['myapi_test'][$myapi_lang]['#type'] = 'select';
-    $form['myapi_test'][$myapi_lang]['#multiple'] = TRUE;
-    $form['myapi_test'][$myapi_lang]['#options'] = $view_names;
-    $form['myapi_test'][$myapi_lang]['#default_value'] = $myapi_default;
-    $form['myapi_test'][$myapi_lang]['#description'] = t('the views that this node will use');
-
-    $form['view_data']['myapi_test'] = $form['myapi_test'];
-    unset($form['myapi_test']);
-
-  }
-  // $form['view_data']['view'] = array(
-  //   '#type' => 'select',
-  //   '#title' => t('views'),
-  //   '#options' => $view_names,
-  //   '#default_value' => 0,
-  //   '#description' => t('the views that this node will use')
-  // );
-
-  if (isset($form_state['input']['views']) ) {
-
-    /**
-     * REQUIRES ANOTHER MODULE = (Entity Module)
-     */
-    // $obj = entity_metadata_wrapper('node', $node);
-    // $obj->views->set($form_state['input']['views']);
-    // $obj->save();
-    // $node->views = $form_state['input']['views'];
-    // entity_save('node', $node);
-
-
-    /**
-     * WOULD BE BETTER TO SAVE TO THE NODE OBJECT THAN TO DO THIS...
-     * NEED TO SET UP INSTALL AND SCHEMA FOR THIS...
-     */
-    // !isset($myapi_node_data)? $myapi_node_data = array() : $myapi_node_data = $myapi_node_data;
-    // $myapi_node_data['node_views'] = array(
-    //   $nid => $form_state['input']['views']
-    // );
-    // variable_set('myapi_node_data', $myapi_node_data);
-
-
-    // $node_views = $form_state['input']['views'];
-    // $node->node_views = $node_views;
-    // node_save($node);
-    // dpm($node);
-    // if ($node->node_views !== $node_views) {
-    //   $node->node_views = $node_views;
-    // }
-  }
-
-}
-
-// function myapi_node_submit($node, $form, &$form_state) {
-//   $node_views = $form_state['input']['views'];
-//   $node->node_views = $node_views;
-//   entity_save('node', $node);
-// }
 
 
 
