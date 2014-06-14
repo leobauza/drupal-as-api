@@ -18,19 +18,24 @@ function getView($name, $page=0) {
   $rows = array();
   foreach($names as $name) {
     $view = views_get_view($name);
-    $view->init_display();
-    $view->current_page = $page;
 
-    $view->pre_execute();
-    $view->execute();
-    $view_result = $view->result;
+    if (isset($view)) {
+      $view->init_display();
+      $view->current_page = $page;
 
-    $rows = array();
-    foreach ($view_result as $row) {
-      $rows[$row->nid] = $row;
+      $view->pre_execute();
+      $view->execute();
+      $view_result = $view->result;
+
+      $rows = array();
+      foreach ($view_result as $row) {
+        $rows[$row->nid] = $row;
+      }
+
+      $views[$name] = $rows;
+    } else {
+      return;
     }
-
-    $views[$name] = $rows;
   }
 
   return $views;
