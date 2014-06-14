@@ -5,7 +5,7 @@ require_once drupal_get_path('module', 'myapi') . '/inc/node.inc';
 require_once drupal_get_path('module', 'myapi') . '/inc/view.inc';
 require_once drupal_get_path('module', 'myapi') . '/inc/page.inc';
 
-require_once drupal_get_path('module', 'myapi') . '/fields/assoc-views.inc';
+require_once drupal_get_path('module', 'myapi') . '/forms/nodeform.inc';
 /**
  * Implementation of hook_menu
  */

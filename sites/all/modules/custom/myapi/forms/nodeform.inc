@@ -58,6 +58,7 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
 
 function myapi_node_submit($node, $form, &$form_state) {
   $lang = $form['language']['#value'];
+  //combine the values with plus signs to store for api call
   $combined = array();
   foreach($form_state['values']['assoc_views'][$lang] as $key) {
     $combined[] = $key['value'];
