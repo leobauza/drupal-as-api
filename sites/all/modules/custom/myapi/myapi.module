@@ -4,6 +4,7 @@ require_once drupal_get_path('module', 'myapi') . '/inc/menu.inc';
 require_once drupal_get_path('module', 'myapi') . '/inc/node.inc';
 require_once drupal_get_path('module', 'myapi') . '/inc/view.inc';
 
+
 /**
  * Implementation of hook_menu
  */
@@ -120,13 +121,12 @@ function getPage($id) {
 
 }
 
-
-
 /**
  * Implements hook_form_FORM_ID_alter().
  */
 function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
-  //dpm($form_state);
+  //dpm($form_state['node']);
+  //dpm($form['myapi_test']);
   $views = views_get_all_views();
   $view_names = array(
     0 => t('none')
@@ -136,27 +136,17 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
   }
 
   $node = $form['#node'];
-  dpm($node);
+  //dpm($node);
   $nid = $node->nid;
 
-  !isset($myapi_node_data)? $myapi_node_data = array() : $myapi_node_data = $myapi_node_data;
-  $myapi_node_data = variable_get('myapi_node_data', '');
+  // !isset($myapi_node_data)? $myapi_node_data = array() : $myapi_node_data = $myapi_node_data;
+  // $myapi_node_data = variable_get('myapi_node_data', '');
 
   //dpm($myapi_node_data);
 
   $form['data_settings'] = array(
     '#type' => 'vertical_tabs',
     '#weight' => 99
-  );
-
-  $form['some_data'] = array(
-    '#type' => 'fieldset',
-    '#title' => t('Some Data'),
-    '#collapsible' => TRUE,
-    '#collapsed' => TRUE,
-    // '#group' => 'additional_settings',
-    '#group' => 'data_settings',
-    '#weight' => 100,
   );
 
   $form['view_data'] = array(
@@ -169,13 +159,36 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
     '#weight' => 100,
   );
 
-  $form['view_data']['views'] = array(
-    '#type' => 'select',
-    '#title' => t('views'),
-    '#options' => $view_names,
-    '#default_value' => $myapi_node_data['node_views'][$nid],
-    '#description' => t('the views that this node will use')
-  );
+
+
+  if (isset($form['myapi_test'])) {
+
+    $myapi_lang = $form['myapi_test']['#language'];
+    $myapi_default = 0;
+    if (isset($node->myapi_test)) {
+      $myapi_test_field = field_view_field('node', $node, 'myapi_test');
+      if (isset($myapi_test_field['#items'][0]['value'])) {
+        $myapi_default = $myapi_test_field['#items'][0]['value'];
+      }
+    }
+
+    $form['myapi_test'][$myapi_lang]['#type'] = 'select';
+    $form['myapi_test'][$myapi_lang]['#multiple'] = TRUE;
+    $form['myapi_test'][$myapi_lang]['#options'] = $view_names;
+    $form['myapi_test'][$myapi_lang]['#default_value'] = $myapi_default;
+    $form['myapi_test'][$myapi_lang]['#description'] = t('the views that this node will use');
+
+    $form['view_data']['myapi_test'] = $form['myapi_test'];
+    unset($form['myapi_test']);
+
+  }
+  // $form['view_data']['view'] = array(
+  //   '#type' => 'select',
+  //   '#title' => t('views'),
+  //   '#options' => $view_names,
+  //   '#default_value' => 0,
+  //   '#description' => t('the views that this node will use')
+  // );
 
   if (isset($form_state['input']['views']) ) {
 
@@ -193,11 +206,11 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
      * WOULD BE BETTER TO SAVE TO THE NODE OBJECT THAN TO DO THIS...
      * NEED TO SET UP INSTALL AND SCHEMA FOR THIS...
      */
-    !isset($myapi_node_data)? $myapi_node_data = array() : $myapi_node_data = $myapi_node_data;
-    $myapi_node_data['node_views'] = array(
-      $nid => $form_state['input']['views']
-    );
-    variable_set('myapi_node_data', $myapi_node_data);
+    // !isset($myapi_node_data)? $myapi_node_data = array() : $myapi_node_data = $myapi_node_data;
+    // $myapi_node_data['node_views'] = array(
+    //   $nid => $form_state['input']['views']
+    // );
+    // variable_set('myapi_node_data', $myapi_node_data);
 
 
     // $node_views = $form_state['input']['views'];
