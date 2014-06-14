@@ -7,18 +7,18 @@
 /**
  * Implement hook_field_info()
  */
-// function myapi_field_info(){
-//   $fields['assoc_views'] = array(
-//     'label' => t('myapi test'),
-//     'description' => t('just a test'),
-//     'settings' => array(),
-//     'widget' => array(
-//       'type' => 'select'
-//     ),
-//     'no_ui' => TRUE
-//   );
-//   return $fields;
-// }
+function myapi_field_info(){
+  $fields['assoc_views'] = array(
+    // 'label' => t('myapi test'),
+    // 'description' => t('just a test'),
+    // 'settings' => array(),
+    // 'widget' => array(
+    //   'type' => 'select'
+    // ),
+    'no_ui' => TRUE
+  );
+  return $fields;
+}
 
 
 /**
@@ -42,7 +42,7 @@ function myapi_enable() {
     $instance = array(
       'field_name' => 'assoc_views',
       'entity_type' => 'node',
-      'label' => 'myapi test',
+      'label' => 'Associated Views',
       'bundle' => 'page'
     );
     $instance = field_create_instance($instance);
