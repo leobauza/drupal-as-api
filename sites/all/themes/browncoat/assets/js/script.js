@@ -2,7 +2,8 @@ test = (function ($, global) {
   if (!$('#site-header').length) { return; }
 
   var bs = bootstrap,
-      custom_fields = {};
+      custom_fields = {},
+      assoc_views = {};
 
   //custom fields
   if (bs.node.custom_fields) {
@@ -14,6 +15,11 @@ test = (function ($, global) {
   } else {
     console.log('no custom fields');
     var custom_fields = null;
+  }
+
+  //associated views
+  if (bs.views) {
+    assoc_views = bs.views;
   }
 
   //log stuff
@@ -44,7 +50,8 @@ test = (function ($, global) {
 
   var pageBody = comp('#body', {
     body: bs.node.body.safe_value,
-    custom_fields: custom_fields
+    custom_fields: custom_fields,
+    articles: assoc_views.articles
   });
 
   //console.log(mainNav);
