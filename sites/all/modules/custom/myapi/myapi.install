@@ -8,7 +8,7 @@
  * Implement hook_field_info()
  */
 // function myapi_field_info(){
-//   $fields['myapi_test'] = array(
+//   $fields['assoc_views'] = array(
 //     'label' => t('myapi test'),
 //     'description' => t('just a test'),
 //     'settings' => array(),
@@ -28,19 +28,19 @@ function myapi_enable() {
 
   drupal_set_message($message = t('The myapi module was successfully enabled.'), $type = 'status');
   //Check if our field is not already created.
-  if (!field_info_field('myapi_test')) {
+  if (!field_info_field('assoc_views')) {
 
-    $myapi_test_field = array(
-      'field_name' => 'myapi_test',
+    $assoc_views_field = array(
+      'field_name' => 'assoc_views',
       'type' => 'list_text',
       //allow for multiple values
       //http://drupal.stackexchange.com/questions/35830/how-to-create-multi-value-multi-bundle-entity-reference-fields-in-code
       'cardinality' => '-1'
     );
-    field_create_field($myapi_test_field);
+    field_create_field($assoc_views_field);
 
     $instance = array(
-      'field_name' => 'myapi_test',
+      'field_name' => 'assoc_views',
       'entity_type' => 'node',
       'label' => 'myapi test',
       'bundle' => 'page'
@@ -56,9 +56,10 @@ function myapi_enable() {
 function myapi_disable () {
   drupal_set_message($message = t('The myapi module was successfully disabled.'), $type = 'status');
   //Check if our field is not already created.
-  if (field_info_field('myapi_test')) {
-    field_delete_field('myapi_test');
+  if (field_info_field('assoc_views')) {
+    field_delete_field('assoc_views');
   }
+  drupal_cron_run();
 }
 
 
@@ -73,7 +74,7 @@ function myapi_schema() {
  * Implementation of hook_schema_alter
  */
 function myapi_schema_alter(&$schema) {
-  if (isset($schema['field_data_myapi_test'])) {
-    //dpm($schema['field_data_myapi_test']);
+  if (isset($schema['field_data_assoc_views'])) {
+    //dpm($schema['field_data_assoc_views']);
   }
 }

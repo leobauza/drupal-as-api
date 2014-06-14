@@ -31,23 +31,25 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
   );
 
 
-  if (isset($form['myapi_test'])) {
+  if (isset($form['assoc_views'])) {
     $myapi_default = array();
-    if (isset($node->myapi_test)) {
-      $assoc_views_field = field_view_field('node', $node, 'myapi_test');
-      $myapi_default = explode('+', $assoc_views_field['#items'][0]['value']);
+    if (isset($node->assoc_views)) {
+      $assoc_views_field = field_view_field('node', $node, 'assoc_views');
+      if (isset($assoc_views_field['#items'][0]['value'])) {
+        $myapi_default = explode('+', $assoc_views_field['#items'][0]['value']);
+      }
     }
 
     //replace the created field for my own version
-    $myapi_lang = $form['myapi_test']['#language'];
-    $form['myapi_test'][$myapi_lang]['#type'] = 'select';
-    $form['myapi_test'][$myapi_lang]['#multiple'] = TRUE;
-    $form['myapi_test'][$myapi_lang]['#options'] = $view_names;
-    $form['myapi_test'][$myapi_lang]['#default_value'] = $myapi_default;
-    $form['myapi_test'][$myapi_lang]['#description'] = t('the views that this node will use');
+    $myapi_lang = $form['assoc_views']['#language'];
+    $form['assoc_views'][$myapi_lang]['#type'] = 'select';
+    $form['assoc_views'][$myapi_lang]['#multiple'] = TRUE;
+    $form['assoc_views'][$myapi_lang]['#options'] = $view_names;
+    $form['assoc_views'][$myapi_lang]['#default_value'] = $myapi_default;
+    $form['assoc_views'][$myapi_lang]['#description'] = t('the views that this node will use');
 
-    $form['view_data']['myapi_test'] = $form['myapi_test'];
-    unset($form['myapi_test']);
+    $form['view_data']['assoc_views'] = $form['assoc_views'];
+    unset($form['assoc_views']);
 
   }
 
@@ -57,22 +59,22 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
 function myapi_node_submit($node, $form, &$form_state) {
   $lang = $form['language']['#value'];
   $combined = array();
-  foreach($form_state['values']['myapi_test'][$lang] as $key) {
+  foreach($form_state['values']['assoc_views'][$lang] as $key) {
     $combined[] = $key['value'];
   }
   $combined = implode('+', $combined);
   //dpm($combined);
-  $node->myapi_test[$lang] = array(
+  $node->assoc_views[$lang] = array(
     0 => array (
       'value' => $combined
     )
   );
 
-  dpm($node->myapi_test[$lang]);
+  dpm($node->assoc_views[$lang]);
 }
 
 // function myapi_field_attach_submit($entity_type, $entity, $form, &$form_state) {
 //   dpm($form);
 //   $lang = $form['language']['#value'];
-//   $form_state['values']['myapi_test'][$lang][0]['value'] = 'changed!';
+//   $form_state['values']['assoc_views'][$lang][0]['value'] = 'changed!';
 // }

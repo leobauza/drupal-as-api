@@ -20,15 +20,15 @@ endif;
  * Associations (views)
  */
 $assoc_views = '';
-if (isset($node->myapi_test)) {
-  $assoc_views_field = field_view_field('node', $node, 'myapi_test');
+if (isset($node->assoc_views)) {
+  $assoc_views_field = field_view_field('node', $node, 'assoc_views');
   if (isset($assoc_views_field['#items'][0]['value'])) {
     $assoc_views = $assoc_views_field['#items'][0]['value'];
     //dpm($assoc_views);
     $assoc_views = "?views=" . $assoc_views;
   }
 }
-//dpm($node->myapi_test);
+//dpm($node->assoc_views);
 
 
 /**
