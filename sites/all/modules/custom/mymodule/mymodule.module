@@ -1,0 +1,20 @@
+<?php
+/**
+ * Implements hook_form_FORM_ID_alter().
+ */
+function mymodule_form_node_form_alter(&$form, $form_state, $form_id) {
+
+  $form['field_test_composed']['und'][0]['composed'][2]['#upload_location'] = 'public://test/';
+  dpm($form['field_test_composed']['und'][0]['composed'][2]);
+  $serialized = $form_state['node']->field_test_composed['und'][0]['composed'];
+  dpm(unserialize($serialized));
+
+}
+
+
+function mymodule_node_submit($node, $form, &$form_state) {
+
+  dpm($node->assoc_views[$lang]);
+  dpm($node->field_test_composed);
+
+}

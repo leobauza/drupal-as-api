@@ -4,24 +4,6 @@
  */
 function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
 
-  /**
-   * THIS IS FOR ANOTHER MODULE MOVE SOON
-   * EDITING STUFF ON THE COMPOSED FORM
-   */
-
-  //dpm($form_state);
-  $form['field_test_composed']['und'][0]['composed'][3]['#upload_location'] = 'public://test/';
-  dpm($form['field_test_composed']['und'][0]['composed'][3]);
-  //dpm($form_state['node']->field_test_composed);
-
-
-
-  /**
-   * END
-   * END
-   */
-
-
   $views = views_get_all_views();
   $view_names = array(
     0 => t('none')
@@ -61,7 +43,7 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
 
     //replace the created field for my own version
     $myapi_lang = $form['assoc_views']['#language'];
-    dpm($form['assoc_views'][$myapi_lang]);
+    //dpm($form['assoc_views'][$myapi_lang]);
     $form['assoc_views'][$myapi_lang]['#title'] = "views to use";
     $form['assoc_views'][$myapi_lang]['#type'] = 'select';
     $form['assoc_views'][$myapi_lang]['#multiple'] = TRUE;
@@ -92,7 +74,8 @@ function myapi_node_submit($node, $form, &$form_state) {
     )
   );
 
-  dpm($node->assoc_views[$lang]);
+  dpm($node);
+
 }
 
 // function myapi_field_attach_submit($entity_type, $entity, $form, &$form_state) {

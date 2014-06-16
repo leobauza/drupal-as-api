@@ -1,0 +1,6 @@
+name = mymodule
+description = "A module that contains whatever is needed for this project"
+package = Custom
+core = 7.x
+configure = admin/config/custom/mymodule
+dependencies[] = system (>7.10)
