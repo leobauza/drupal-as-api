@@ -6,7 +6,7 @@ function mymodule_form_node_form_alter(&$form, $form_state, $form_id) {
 
   $lang = $form['language']['#value'];
   // $form['field_test_composed'][$lang][0]['composed'][2]['#upload_location'] = 'public://test/';
-  dpm($form['field_test_composed'][$lang][0]['composed']);
+  //dpm($form['field_test_composed'][$lang][0]['composed']);
   $field_name = 'field_test_composed';
   $upload_location = 'public://test/';
   $composed_fields = $form[$field_name][$lang];
@@ -22,7 +22,7 @@ function mymodule_form_node_form_alter(&$form, $form_state, $form_id) {
         if (isset($part['#type']) && $part['#type'] === 'managed_file') {
           $form['field_test_composed'][$lang][$set]['composed'][$subset]['#upload_location'] = $upload_location;
           //$part['#upload_location'] = $upload_location;
-          dpm($form['field_test_composed'][$lang][$set]['composed'][$subset]);
+          dpm($form['field_test_composed'][$lang][$set]);
           dpm('subset ' . $subset . ' of set ' . $set);
         }
       }
