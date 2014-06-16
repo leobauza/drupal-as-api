@@ -74,7 +74,7 @@ function myapi_node_submit($node, $form, &$form_state) {
     )
   );
 
-  dpm($node);
+  //dpm($node);
 
 }
 

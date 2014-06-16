@@ -4,17 +4,67 @@
  */
 function mymodule_form_node_form_alter(&$form, $form_state, $form_id) {
 
-  $form['field_test_composed']['und'][0]['composed'][2]['#upload_location'] = 'public://test/';
-  dpm($form['field_test_composed']['und'][0]['composed'][2]);
-  $serialized = $form_state['node']->field_test_composed['und'][0]['composed'];
-  dpm(unserialize($serialized));
+  $lang = $form['language']['#value'];
+  // $form['field_test_composed'][$lang][0]['composed'][2]['#upload_location'] = 'public://test/';
+  dpm($form['field_test_composed'][$lang][0]['composed']);
+  $field_name = 'field_test_composed';
+  $upload_location = 'public://test/';
+  $composed_fields = $form[$field_name][$lang];
+
+  //set upload location for all managed files
+  $set = 0;
+  foreach ($composed_fields as $field) {
+    if (isset($field['composed'])) {
+      $subset = -1;
+      foreach ($field['composed'] as $part) {
+        $subset++;
+        //dpm($count);
+        if (isset($part['#type']) && $part['#type'] === 'managed_file') {
+          $form['field_test_composed'][$lang][$set]['composed'][$subset]['#upload_location'] = $upload_location;
+          //$part['#upload_location'] = $upload_location;
+          dpm($form['field_test_composed'][$lang][$set]['composed'][$subset]);
+          dpm('subset ' . $subset . ' of set ' . $set);
+        }
+      }
+    }
+    $set++;
+  }
+
+  //dpm($file_ids);
+
+  //dpm($form_state);
+
+
+  //dpm($form['field_test_composed'][$lang][0]['composed']);
+  //$serialized = $form_state['node']->field_test_composed['und'][0]['composed'];
+  //dpm(unserialize($serialized));
 
 }
 
 
 function mymodule_node_submit($node, $form, &$form_state) {
 
-  dpm($node->assoc_views[$lang]);
-  dpm($node->field_test_composed);
+  $lang = $form['language']['#value'];
+
+  //dpm($node->assoc_views[$lang]);
+  //dpm($node->field_test_composed[$lang]);
+  $composeds = $node->field_test_composed[$lang];
+
+  $count = 0;
+  foreach ($composeds as $composed) {
+    $count++;
+
+    if ($count !== count($composeds)) {
+      //dpm($composed['composed']);
+    }
+
+  }
+
+  //$form_state['input']['field_test_composed']['und'][0]['composed'][2]['fid'] = 3;
+  //dpm($node);
+  //$node_composeds = $node->field_test_composed[$lang];
+  //dpm($node_composeds);
+
+
 
 }
