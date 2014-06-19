@@ -11,13 +11,15 @@ if (!defined('__DIR__')) {
 function browncoat_preprocess_page(&$vars) {
 
 	//dpm($vars);
-	$node = $vars['node'];
-	$vars['node_info'] = array(
-		'nid' => $node->nid,
-		'vid' => $node->vid,
-		'title' => $node->title,
-		'type' => $node->type
-	);
+	if (isset($vars['node'])) {
+		$node = $vars['node'];
+		$vars['node_info'] = array(
+			'nid' => $node->nid,
+			'vid' => $node->vid,
+			'title' => $node->title,
+			'type' => $node->type
+		);
+	}
 
 }
 

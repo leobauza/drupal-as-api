@@ -1,5 +1,5 @@
 name = mymodule
-description = "A module that contains whatever is needed for this project"
+description = "Add on to composed fields. Adds the right path for image uploads."
 package = Custom
 core = 7.x
 configure = admin/config/custom/mymodule

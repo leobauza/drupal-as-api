@@ -70,7 +70,7 @@ function apiRouter ($type, $id, $page=0) {
     @request a view
     */
     case 'view':
-      $view = getView($id);
+      $view = getViews($id);
       echo json_encode($view);
       break;
 
@@ -80,7 +80,6 @@ function apiRouter ($type, $id, $page=0) {
     */
     case 'test':
       $view = getTest($id);
-      //echo json_encode($view);
       break;
 
 

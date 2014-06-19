@@ -27,8 +27,8 @@ function getPage($id) {
   );
 
   if (isset($_GET['views'])) {
-    $view_name = $_GET['views'];
-    $output['views'] = getView($view_name);
+    $view_names = $_GET['views'];
+    $output['views'] = getViews($view_names);
   }
 
   return $output;

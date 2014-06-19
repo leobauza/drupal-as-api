@@ -10,7 +10,7 @@
  * @param $page
  * page number for the view if paginated
  */
-function getView($name, $page=0) {
+function getViews($name, $page=0) {
 
 
   $names = explode(' ', $name);
@@ -29,7 +29,9 @@ function getView($name, $page=0) {
 
       $rows = array();
       foreach ($view_result as $row) {
-        $rows[$row->nid] = $row;
+        if (isset($row->nid)) {
+          $rows[$row->nid] = $row;
+        }
       }
 
       $views[$name] = $rows;

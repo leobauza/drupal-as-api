@@ -17,10 +17,11 @@ function getNode($id) {
   foreach ($fields as $field => $value) {
     if (strpos($field, 'field_') !== FALSE && !empty($value)) {
 
-      //manage composed fields here for now...
-      //HAS TO BE NAMED WITH '_composed' in the name!!
-      //GET THE FIELD INFORMATION SEE BELOW SO THIS ISNT A REQUIREMENT!!!
-      if (strpos($field, '_composed') !== FALSE) {
+      //get field information and field type to manage composed fields
+      $field_info = field_info_field($field);
+      $field_type = $field_info['type'];
+      if ($field_type === 'composed_field') {
+      //if (strpos($field, '_composed') !== FALSE) {
         _manageComposed($field, $fields);
       } else {
         $fields->custom_fields[$field] = field_view_field('node', $fields, $field)['#items'][0];
@@ -63,25 +64,43 @@ function getNode($id) {
  */
 function _manageComposed($field, $fields) {
 
-  $raw = field_view_field('node', $fields, $field)['#items'];
-  $composed = unserialize(field_view_field('node', $fields, $field)['#items'][0]['composed']);
   //THIS GIVES YOU INFORMATION ABOUT THE COMPOSED FIELD
-  $types = field_info_instance($entity_type='node', $field_name='field_test_composed', $bundle_name='page')['widget']['settings']['composed_field']['type'];
+  $types = field_info_instance($entity_type='node', $field_name=$field, $bundle_name='page')['widget']['settings']['composed_field']['type'];
+  $titles = field_info_instance($entity_type='node', $field_name=$field, $bundle_name='page')['widget']['settings']['composed_field']['title'];
 
-  // $count = 0;
-  // foreach($types as $key => $type) {
-  //   $count++;
-  //   if ($type['value'] === 'managed_file') {
-  //     //get the uri from the image ID!
-  //     $file = file_load($composed[$count]);
-  //     $file_path = $file->uri;
-  //
-  //     $composed['uri'] = file_create_url($file_path);
-  //   }
-  // }
+  //$raw = field_view_field('node', $fields, $field)['#items'];
 
-  //HANDLE MORE THAN ON RIGHT NOW IT ONLY HANDLES ONE
-  $fields->composed_fields[$field] = $raw;
+  $composed_field = field_view_field('node', $fields, $field);
+  $composed = array();
+  $output = array();
+
+  if (!isset($composed_field['#items'])) {
+    return $fields->composed_fields[$field] = 0;
+  }
+
+  foreach($composed_field['#items'] as $ktop => $vtop) {
+
+    $composed[$ktop] = unserialize(field_view_field('node', $fields, $field)['#items'][$ktop]['composed']);
+
+    //set titles and get file uri
+    foreach ($types as $k => $v) {
+
+      $title = $titles[$k]['value'];
+      $output[$ktop][$title] = $composed[$ktop][$k];
+
+
+      if ($v['value'] === "managed_file") {
+        $file = file_load($composed[$ktop][$k]);
+        $output[$ktop]['file_uri'] = file_create_url($file->uri);
+      }
+
+    }
+
+  }
+
+  //HANDLE MORE THAN ONE? RIGHT NOW IT ONLY HANDLES ONE??
+  return $fields->composed_fields[$field] = $output;
+
 }
 
 

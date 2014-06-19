@@ -17,6 +17,13 @@ test = (function ($, global) {
     var custom_fields = null;
   }
 
+  //composed fields
+  if (bs.node.composed_fields.length !== 0) {
+    console.log('has composed fields');
+  } else {
+    console.log('no composed fields');
+  }
+
   //associated views
   if (bs.views) {
     assoc_views = bs.views;
@@ -25,6 +32,7 @@ test = (function ($, global) {
   //log stuff
   console.log(bs);
   console.log(custom_fields);
+  console.log(bs.node.composed_fields.field_test_composed[0]);
 
 
   //Register partials
