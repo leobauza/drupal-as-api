@@ -48,6 +48,8 @@ function apiRouter ($type, $id, $page=0) {
     @request a block
     */
     case 'block':
+      $block = getTest($id);
+      //echo json_encode($block);
       break;
 
     /*
@@ -99,13 +101,17 @@ function apiRouter ($type, $id, $page=0) {
 
 function getTest($id) {
 
-  if ($_GET['views']) {
-    $view_name = $_GET['views'];
-    $output = getView($view_name);
-  }
-
-  echo json_encode($output);
+  // if ($_GET['views']) {
+  //   $view_name = $_GET['views'];
+  //   $output = getView($view_name);
+  // }
+  //
+  // echo json_encode($output);
   //return $output;
+
+  echo "get my blocks";
+
+
 }
 
 

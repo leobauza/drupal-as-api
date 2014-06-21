@@ -9,7 +9,11 @@ function mymodule_form_node_form_alter(&$form, $form_state, $form_id) {
   //dpm($form['field_test_composed'][$lang][0]['composed']);
   $field_name = 'field_test_composed';
   $upload_location = 'public://test/';
-  $composed_fields = $form[$field_name][$lang];
+  if (isset($form[$field_name])) {
+    $composed_fields = $form[$field_name][$lang];
+  } else {
+    $composed_fields = array();
+  }
 
   //set upload location for all managed files
   $set = 0;
@@ -68,3 +72,9 @@ function mymodule_node_submit($node, $form, &$form_state) {
 
 
 }
+
+
+
+
+//make the block for steves site
+

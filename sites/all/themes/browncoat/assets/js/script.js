@@ -32,7 +32,9 @@ test = (function ($, global) {
   //log stuff
   console.log(bs);
   console.log(custom_fields);
-  console.log(bs.node.composed_fields.field_test_composed[0]);
+  if (bs.node.composed_fields.field_test_composed) {
+    console.log(bs.node.composed_fields.field_test_composed[0]);
+  }
 
 
   //Register partials
@@ -53,7 +55,8 @@ test = (function ($, global) {
   });
   var siteHeader = comp('#site-header',{
     siteName: "My Site's name",
-    nodeName: bs.node.title
+    nodeName: bs.node.title,
+    nodeId: bs.node.nid
   });
 
   var pageBody = comp('#body', {
