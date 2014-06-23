@@ -4,6 +4,9 @@
  */
 function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
 
+  /**
+   * VIEWS
+   */
   $views = views_get_all_views();
   $view_names = array(
     0 => t('none')
@@ -55,6 +58,20 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
     unset($form['assoc_views']);
 
   }
+
+  /**
+   * BLOCKS
+   */
+  $form['block_data'] = array(
+    '#type' => 'fieldset',
+    '#title' => t('Block Data'),
+    '#collapsible' => TRUE,
+    '#collapsed' => TRUE,
+    // '#group' => 'additional_settings',
+    '#group' => 'data_settings',
+    '#weight' => 101,
+  );
+
 
 }
 
