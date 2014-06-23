@@ -91,7 +91,9 @@ function _manageComposed($field, $fields) {
 
       if ($v['value'] === "managed_file") {
         $file = file_load($composed[$ktop][$k]);
-        $output[$ktop]['file_uri'] = file_create_url($file->uri);
+        if (isset($file->uri)) {
+          $output[$ktop]['file_uri'] = file_create_url($file->uri);
+        }
       }
 
     }
