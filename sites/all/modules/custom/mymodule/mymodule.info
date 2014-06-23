@@ -1,5 +1,5 @@
 name = mymodule
-description = "Add on to composed fields. Adds the right path for image uploads."
+description = "Add on to composed fields: adds the right path for image uploads. Adds the block for Steve's slider."
 package = Custom
 core = 7.x
 configure = admin/config/custom/mymodule

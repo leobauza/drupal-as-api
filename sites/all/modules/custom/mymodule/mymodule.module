@@ -52,17 +52,17 @@ function mymodule_node_submit($node, $form, &$form_state) {
 
   //dpm($node->assoc_views[$lang]);
   //dpm($node->field_test_composed[$lang]);
-  $composeds = $node->field_test_composed[$lang];
-
-  $count = 0;
-  foreach ($composeds as $composed) {
-    $count++;
-
-    if ($count !== count($composeds)) {
-      //dpm($composed['composed']);
-    }
-
-  }
+  // $composeds = $node->field_test_composed[$lang];
+  //
+  // $count = 0;
+  // foreach ($composeds as $composed) {
+  //   $count++;
+  //
+  //   if ($count !== count($composeds)) {
+  //     //dpm($composed['composed']);
+  //   }
+  //
+  // }
 
   //$form_state['input']['field_test_composed']['und'][0]['composed'][2]['fid'] = 3;
   //dpm($node);

@@ -39,15 +39,39 @@ function myapi_enable() {
     );
     field_create_field($assoc_views_field);
 
-    $instance = array(
+    $instance_views = array(
       'field_name' => 'assoc_views',
       'entity_type' => 'node',
       'label' => 'Associated Views',
       'bundle' => 'page'
     );
-    $instance = field_create_instance($instance);
+    $instance_views = field_create_instance($instance_views);
 
   }
+
+
+  if (!field_info_field('assoc_blocks')) {
+
+    $assoc_blocks_field = array(
+      'field_name' => 'assoc_blocks',
+      'type' => 'list_text',
+      //allow for multiple values
+      //http://drupal.stackexchange.com/questions/35830/how-to-create-multi-value-multi-bundle-entity-reference-fields-in-code
+      'cardinality' => '-1'
+    );
+    field_create_field($assoc_blocks_field);
+
+    $instance_blocks = array(
+      'field_name' => 'assoc_blocks',
+      'entity_type' => 'node',
+      'label' => 'Associated Blocks',
+      'bundle' => 'page'
+    );
+    $instance_blocks = field_create_instance($instance_blocks);
+
+  }
+
+
 }
 
 /**
@@ -58,6 +82,9 @@ function myapi_disable () {
   //Check if our field is not already created.
   if (field_info_field('assoc_views')) {
     field_delete_field('assoc_views');
+  }
+  if (field_info_field('assoc_blocks')) {
+    field_delete_field('assoc_blocks');
   }
   drupal_cron_run();
 }
