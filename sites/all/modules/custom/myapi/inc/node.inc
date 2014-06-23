@@ -85,7 +85,9 @@ function _manageComposed($field, $fields) {
     //set titles and get file uri
     foreach ($types as $k => $v) {
 
-      $title = $titles[$k]['value'];
+      $title = strtolower($titles[$k]['value']);
+      $title = str_replace(' ', '_', $title);
+
       $output[$ktop][$title] = $composed[$ktop][$k];
 
 
