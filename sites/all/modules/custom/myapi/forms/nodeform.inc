@@ -4,17 +4,6 @@
  */
 function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
 
-  /**
-   * VIEWS
-   */
-  $views = views_get_all_views();
-  $view_names = array(
-    0 => t('none')
-  );
-  foreach ($views as $view) {
-    $view_names[$view->name] = t($view->name);
-  }
-
   $node = $form['#node'];
   //dpm($node);
   $nid = $node->nid;
@@ -23,6 +12,17 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
     '#type' => 'vertical_tabs',
     '#weight' => 99
   );
+
+  /**
+   * VIEWS
+   */
+  $views = views_get_all_views();
+  $options_views = array(
+    0 => t('none')
+  );
+  foreach ($views as $view) {
+    $options_views[$view->name] = t($view->name);
+  }
 
   $form['view_data'] = array(
     '#type' => 'fieldset',
@@ -34,25 +34,24 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
     '#weight' => 100,
   );
 
-
   if (isset($form['assoc_views'])) {
-    $myapi_default = array();
+    $assoc_views_default = array();
     if (isset($node->assoc_views)) {
       $assoc_views_field = field_view_field('node', $node, 'assoc_views');
       if (isset($assoc_views_field['#items'][0]['value'])) {
-        $myapi_default = explode('+', $assoc_views_field['#items'][0]['value']);
+        $assoc_views_default = explode('+', $assoc_views_field['#items'][0]['value']);
       }
     }
 
     //replace the created field for my own version
-    $myapi_lang = $form['assoc_views']['#language'];
-    //dpm($form['assoc_views'][$myapi_lang]);
-    $form['assoc_views'][$myapi_lang]['#title'] = "views to use";
-    $form['assoc_views'][$myapi_lang]['#type'] = 'select';
-    $form['assoc_views'][$myapi_lang]['#multiple'] = TRUE;
-    $form['assoc_views'][$myapi_lang]['#options'] = $view_names;
-    $form['assoc_views'][$myapi_lang]['#default_value'] = $myapi_default;
-    $form['assoc_views'][$myapi_lang]['#description'] = t('the views that this node will use');
+    $assoc_views_lang = $form['assoc_views']['#language'];
+    //dpm($form['assoc_views'][$assoc_views_lang]);
+    $form['assoc_views'][$assoc_views_lang]['#title'] = "views to use";
+    $form['assoc_views'][$assoc_views_lang]['#type'] = 'select';
+    $form['assoc_views'][$assoc_views_lang]['#multiple'] = TRUE;
+    $form['assoc_views'][$assoc_views_lang]['#options'] = $options_views;
+    $form['assoc_views'][$assoc_views_lang]['#default_value'] = $assoc_views_default;
+    $form['assoc_views'][$assoc_views_lang]['#description'] = t('the views that this node will use');
 
     $form['view_data']['assoc_views'] = $form['assoc_views'];
     unset($form['assoc_views']);
@@ -72,8 +71,20 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
     '#weight' => 101,
   );
 
-  $all_blocks = _block_rehash('browncoat');;
-  dpm($all_blocks);
+  global $theme;
+  $all_blocks = _block_rehash($theme);
+
+  $options_blocks = array(
+    0 => t('none')
+  );
+  foreach ($all_blocks as $block) {
+    if ($block['module'] !== 'system' && $block['module'] !== 'devel' && $block['module'] !== 'views') {
+      $options_blocks[$block['delta']] = $block['module'] . ':' . $block['delta'];
+    }
+  }
+
+
+  dpm($options_blocks);
 
 
 }
@@ -94,7 +105,7 @@ function myapi_node_submit($node, $form, &$form_state) {
     )
   );
 
-  //dpm($node);
+  dpm($node);
 
 }
 
