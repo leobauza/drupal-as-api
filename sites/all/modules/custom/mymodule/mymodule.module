@@ -26,8 +26,8 @@ function mymodule_form_node_form_alter(&$form, $form_state, $form_id) {
         if (isset($part['#type']) && $part['#type'] === 'managed_file') {
           $form['field_test_composed'][$lang][$set]['composed'][$subset]['#upload_location'] = $upload_location;
           //$part['#upload_location'] = $upload_location;
-          dpm($form['field_test_composed'][$lang][$set]);
-          dpm('subset ' . $subset . ' of set ' . $set);
+          //dpm($form['field_test_composed'][$lang][$set]);
+          //dpm('subset ' . $subset . ' of set ' . $set);
         }
       }
     }

@@ -72,6 +72,9 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
     '#weight' => 101,
   );
 
+  $all_blocks = _block_rehash('browncoat');;
+  dpm($all_blocks);
+
 
 }
 
