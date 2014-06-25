@@ -30,10 +30,10 @@ test = (function ($, global) {
   }
 
   //log stuff
-  console.log(bs);
-  console.log(custom_fields);
+  console.log("bs:", bs);
+  console.log("custom fields:", custom_fields);
   if (bs.node.composed_fields.field_test_composed) {
-    console.log(bs.node.composed_fields.field_test_composed[0]);
+    console.log("composed fields:", bs.node.composed_fields.field_test_composed[0]);
   }
 
 

@@ -12,7 +12,7 @@
  */
 function getViews($name, $page=0) {
 
-
+  $name = urldecode($name);
   $names = explode(' ', $name);
 
   $rows = array();

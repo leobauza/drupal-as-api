@@ -19,17 +19,39 @@ function getPage($id) {
 
   $node = getNode($id);
   $menu = getMenu('main-menu');
+  $views = NULL;
+  $blocks = NULL;
 
   //I don't need get parameters at all because I have all the
   //node information!!
-  //return $node->language;
-  //return $node->assoc_views;
+  $node_lang = $node->language;
+  if (isset($node->assoc_views) && isset($node->assoc_views[$node_lang])) {
+    $views = $node->assoc_views[$node_lang][0]['value'];
+    $views = getViews($views);
+  } else {
+    $views = 'no views or not a type that supports views';
+  }
+
+  if (isset($node->assoc_blocks) && isset($node->assoc_blocks[$node_lang])) {
+    $blocks = $node->assoc_blocks[$node_lang][0]['value'];
+    $block_parts = explode(':', $blocks);
+    $blocks = getBlock($blocks);
+    $blocks = array(
+      $block_parts[1] => $blocks
+    );
+  } else {
+    $blocks = 'no blocks or not a type that supports blocks';
+  }
+
+
   //return $node->assoc_blocks;
 
   $output = array(
     'querie' => $g['q'],
+    'blocks' => $blocks,
+    'views' => $views,
     'node' => $node,
-    'menu' => $menu
+    'menu' => $menu,
   );
 
   if (isset($_GET['views'])) {
