@@ -29,6 +29,10 @@ test = (function ($, global) {
     assoc_views = bs.views;
   }
 
+  if (bs.blocks) {
+    assoc_blocks = bs.blocks;
+  }
+
   //log stuff
   console.log("bs:", bs);
   console.log("custom fields:", custom_fields);
@@ -62,7 +66,8 @@ test = (function ($, global) {
   var pageBody = comp('#body', {
     body: bs.node.body.safe_value,
     custom_fields: custom_fields,
-    articles: assoc_views.articles
+    articles: assoc_views.articles,
+    philosophy_slider: assoc_blocks.philosophy_slider
   });
 
   //console.log(mainNav);

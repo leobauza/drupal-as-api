@@ -48,10 +48,10 @@ function getPage($id) {
 
   $output = array(
     'querie' => $g['q'],
-    'blocks' => $blocks,
-    'views' => $views,
     'node' => $node,
     'menu' => $menu,
+    'blocks' => $blocks,
+    'views' => $views
   );
 
   if (isset($_GET['views'])) {

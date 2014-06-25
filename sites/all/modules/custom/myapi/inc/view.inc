@@ -30,7 +30,9 @@ function getViews($name, $page=0) {
       $rows = array();
       foreach ($view_result as $row) {
         if (isset($row->nid)) {
+          $alias = drupal_get_path_alias('node/' . $row->nid);
           $rows[$row->nid] = $row;
+          $rows[$row->nid]->alias = $alias;
         }
       }
 
