@@ -79,13 +79,35 @@ function myapi_form_node_form_alter(&$form, $form_state, $form_id) {
   );
   foreach ($all_blocks as $block) {
     if ($block['module'] !== 'system' && $block['module'] !== 'devel' && $block['module'] !== 'views') {
-      $options_blocks[$block['delta']] = $block['module'] . ':' . $block['delta'];
+      $options_blocks[$block['module'] . ':' . $block['delta']] = $block['delta'];
     }
   }
 
-
   dpm($options_blocks);
 
+  if (isset($form['assoc_blocks'])) {
+    $assoc_blocks_default = array();
+    if (isset($node->assoc_blocks)) {
+      $assoc_blocks_field = field_view_field('node', $node, 'assoc_blocks');
+      if (isset($assoc_blocks_field['#items'][0]['value'])) {
+        $assoc_blocks_default = explode('+', $assoc_blocks_field['#items'][0]['value']);
+      }
+    }
+
+    //replace the created field for my own version
+    $assoc_blocks_lang = $form['assoc_blocks']['#language'];
+    //dpm($form['assoc_views'][$assoc_views_lang]);
+    $form['assoc_blocks'][$assoc_blocks_lang]['#title'] = "blocks to use";
+    $form['assoc_blocks'][$assoc_blocks_lang]['#type'] = 'select';
+    $form['assoc_blocks'][$assoc_blocks_lang]['#multiple'] = TRUE;
+    $form['assoc_blocks'][$assoc_blocks_lang]['#options'] = $options_blocks;
+    $form['assoc_blocks'][$assoc_blocks_lang]['#default_value'] = $assoc_blocks_default;
+    $form['assoc_blocks'][$assoc_blocks_lang]['#description'] = t('the blocks that this node will use');
+
+    $form['block_data']['assoc_blocks'] = $form['assoc_blocks'];
+    unset($form['assoc_blocks']);
+
+  }
 
 }
 

@@ -20,6 +20,12 @@ function getPage($id) {
   $node = getNode($id);
   $menu = getMenu('main-menu');
 
+  //I don't need get parameters at all because I have all the
+  //node information!!
+  //return $node->language;
+  //return $node->assoc_views;
+  //return $node->assoc_blocks;
+
   $output = array(
     'querie' => $g['q'],
     'node' => $node,
