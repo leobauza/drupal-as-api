@@ -96,6 +96,9 @@ if (!$variables['logged_in']) {
   /**
    * Node contains all the information about blocks and views so no querie
    * string is needed just the request for the page and node ID
+   * Something should contain some global data gotten from the theme settings or
+   * something like that...in steve's site this would be used for the homepage text,
+   * the title of the site and the contact footer bit...
    */
 
 	var bootstrap = <?php echo file_get_contents("{$base_url}/api/page/{$node_info['nid']}",false,$context) ;?>
